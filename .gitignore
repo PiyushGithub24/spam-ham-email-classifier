@@ -127,7 +127,7 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
+# Environments (email_env/ add manually since i xcreated env as email_env instead of venv)
 .env
 .venv
 env/
@@ -135,6 +135,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+email_env/     
 
 # Spyder project settings
 .spyderproject
