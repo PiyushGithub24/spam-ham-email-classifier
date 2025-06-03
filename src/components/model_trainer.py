@@ -14,6 +14,8 @@ from sklearn.ensemble import GradientBoostingClassifier
 from src.exception import CustomException
 from src.logger import logging
 
+from sklearn.metrics import accuracy_score,precision_score
+
 from src.utils import save_object,evaluate_models
 import pandas as pd
 
@@ -44,7 +46,7 @@ class ModelTrainer:
                 "RandomForest Classifier" :RandomForestClassifier(n_estimators=50, random_state=2),
                 "Bagging Classifier" : BaggingClassifier(n_estimators=50, random_state=2),
                 "Gradient Boosting Classifier" : GradientBoostingClassifier(n_estimators=50,random_state=2)
-}
+            }
 
 
             model_report:pd.DataFrame=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
@@ -55,7 +57,7 @@ class ModelTrainer:
 
             ## To get best model name from Dataframe of evaluated models
 
-            best_model_name = model_report.sort_values(by=["Accuracy Score", "Precision Score"], ascending=False).iloc[0]["'Model Name'"]
+            best_model_name = model_report.sort_values(by=["Accuracy Score", "Precision Score"], ascending=False).iloc[0]['Model Name']
 
             best_model = models[best_model_name]
 
@@ -70,8 +72,8 @@ class ModelTrainer:
 
             predicted=best_model.predict(X_test)
 
-            accuracy_score = accuracy_score(y_test, predicted)
-            return accuracy_score
+            accuracy = accuracy_score(y_test, predicted)
+            return accuracy
 
         except Exception as e:
             raise CustomException(e,sys)

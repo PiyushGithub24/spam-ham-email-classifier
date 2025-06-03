@@ -28,7 +28,7 @@ def save_object(file_path, obj):
         raise CustomException(e, sys)
     
 
-def evaluate_models(X_train, y_train,X_test,y_test,models,params):
+def evaluate_models(X_train, y_train,X_test,y_test,models):
     try:
         model_list = []
         accuracy_score_list =[]
