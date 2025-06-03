@@ -19,7 +19,7 @@ nltk.download('wordnet')
 
 from src.exception import CustomException
 from src.logger import logging
-from src.utils import save_object
+from src.utils import save_object,clean_text
 
 @dataclass
 class DataTransformationConfig:
@@ -32,25 +32,6 @@ class DataTransformation:
         self.label_encoder = LabelEncoder()
         self.lemmatizer=WordNetLemmatizer()
 
-    def clean_text(self, text):
-        try:
-            text = text.lower()                             # Step 1: Lowercase
-            text = nltk.word_tokenize(text)                 # Step 2: Tokenization
-    
-            y = []
-            for i in text:
-                if i.isalnum():                             # Step 3: Remove punctuation and symbols
-                    y.append(i)
-
-            text = []
-            for i in y:
-                if i not in stopwords.words('english'):     # Step 4: Remove stopwords
-                    text.append(lemmatizer.lemmatize(i))    # Step 5: Lemmatize each word
-
-            return " ".join(text)
-
-        except Exception as e:
-            raise CustomException(e, sys)
 
     def initiate_data_transformation(self, train_path, test_path):
         try:
@@ -60,8 +41,8 @@ class DataTransformation:
             logging.info("Train and Test data read successfully.")
 
             # Clean text
-            train_df['text'] = train_df['text'].apply(self.clean_text)
-            test_df['text'] = test_df['text'].apply(self.clean_text)
+            train_df['text'] = train_df['text'].apply(clean_text)
+            test_df['text'] = test_df['text'].apply(clean_text)
 
             # Label encode
             train_df['target'] = self.label_encoder.fit_transform(train_df['target'])
